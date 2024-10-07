@@ -8,19 +8,31 @@ on:
 jobs:
   approval:
     environment: ashok
+
     steps:
       - name: Request Approval
         uses: docker://alpine/git:latest
         run: |
           echo "Waiting for approval..."
+
+          # Simulate waiting for manual approval (You can use external systems for actual approval)
+          # Replace this with an actual approval mechanism if available.
+          APPROVAL_STATUS="approved"  # Change this to "rejected" to simulate rejection
+
+
          
           APPROVAL_STATUS="approved"  
+
       - name: Check Approval Status
         uses: docker://alpine/git:latest
         run: |
           if [ "$APPROVAL_STATUS" != "approved" ]; then
             echo "Pull request was rejected. Exiting."
+
+            exit 1  # Exit with an error code to indicate failure
+
             exit 1 
+
           else
             echo "Pull request approved. Proceeding with the build."
           fi
